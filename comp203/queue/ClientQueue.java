@@ -1,0 +1,51 @@
+
+public class ClientQueue implements CQInterface{
+	private Client head = null;
+	private Client end = null;
+	private int listcount = 0;
+
+	public ClientQueue(){
+	
+	}
+
+	public void enqueue(Client nc){
+		if(nc == null){throw new RuntimeException("new Client cannot be null");}
+		if(isEmpty()){ //no client in the queue
+			head = nc;
+			end = nc;
+		}
+		else{ //more than or equal to one in the queue
+			end.setNext(nc);
+			end = nc;
+		}
+		listcount++;
+	
+	}
+
+	public Client dequeue(){
+		if(isEmpty()){throw new RuntimeException("list is empty, can't dequeue");}
+		Client temp = head;
+		head = head.getNext();
+		listcount--;
+		return temp;
+	}
+
+	public boolean isEmpty(){
+		if(head == null){
+			return true;	
+		}
+		else{return false;}
+	}
+
+	public Client peek(){
+		if(isEmpty()){throw new RuntimeException("list is empty, can't peek");}
+		return head;
+	}
+
+	public int length(){
+		return listcount;
+	}
+
+}
+
+

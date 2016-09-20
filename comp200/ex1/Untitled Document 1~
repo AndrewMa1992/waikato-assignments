@@ -1,0 +1,18 @@
+wasm ex1_q1.s
+wlink -o ex1_q1.srec ex1_q1.o lib_ex1.o
+
+wasm ex1_q2.s
+wlink -o ex1_q2.srec ex1_q2.o lib_ex1.o
+
+wasm ex1_q3.s
+wlink -o ex1_q3.srec ex1_q3.o lib_ex1.o
+
+wasm test.s
+wlink -o test.srec test.o lib_ex1.o
+
+wlink -o serial.srec serial.o
+
+tar -zcf bruce_tan.tar.gz ex1_q1.s ex1_q2.s ex1_q3.s
+
+wasm ex4_q1.s
+wlink -o ex4_q1.srec ex4_q4.o

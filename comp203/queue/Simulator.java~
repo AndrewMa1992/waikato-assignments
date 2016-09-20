@@ -1,0 +1,66 @@
+import java.util.Random;
+public class Simulator{
+	private int currSimTime = 0;
+	private int nextDepart = 0;
+	private int nextArrival = 0;
+	private ClientQueue queue = new ClientQueue();
+
+	private int sumofTimeSpent = 0;
+
+	private int totalDepart = 0;
+
+	public Simulator(int totalDeparturesRequired){
+		try{
+			while(true){
+				//arrival checking is processed before the departure checking for two reasons
+				//in case of next departure equal to next arrival, departure is processed after arrival
+				//since at the start,both nextArrival and currSimTime are the same, so intial arrival will be processed without abundant code
+				if(currSimTime == nextArrival){
+					Random rn = new Random();
+					int servicetime = rn.nextInt(3)+1;
+					Client c1 = new Client(currSimTime,servicetime);//creating new client, setting arrival time for this client to the current simulatio time
+
+					if(queue.isEmpty()){ //if there nothing in the queue, we we need to manually set the next departure time
+						nextDepart = currSimTime + servicetime;
+					}			
+					
+					queue.enqueue(c1);
+
+					int ran = rn.nextInt(3)+1;
+					nextArrival = currSimTime + ran; //random number for next arrival
+					
+
+				}
+				
+				if(currSimTime == nextDepart){
+
+					int waitingtime = currSimTime - queue.dequeue().getArrivalTime();
+					sumofTimeSpent += waitingtime;
+
+					if(!queue.isEmpty()){ //if queue is empty, then there's no next departure
+								//since current simulation increment at the end, so if queue is empty, then departure part will never be executed until a new arrival happens
+						nextDepart = currSimTime + queue.peek().getServiceTime();
+					}
+
+					totalDepart++;
+
+				}
+
+				if(totalDepart == totalDeparturesRequired){//if the no. of departures reaches the limit
+					break;
+				}
+				currSimTime++;
+
+			}
+
+			//print out the results at the end
+			float avgWaitTime = sumofTimeSpent / totalDepart;
+			System.out.println(currSimTime + " " +avgWaitTime);
+		}
+		catch(Exception e){
+			System.out.println(e.getMessage());
+			e.printStackTrace(System.out);
+		}
+	}
+
+}

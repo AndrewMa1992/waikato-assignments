@@ -1,0 +1,24 @@
+wasm ex2_q1.s
+
+wlink -o ex2_q1.srec ex2_q1.o /home/comp200/ex2/main_q1.o /home/comp200/ex2/lib_ex2.o
+
+mark200 ex2_q1.srec
+
+
+
+wcc -S ex2_q2.c
+
+wasm ex2_q2.s
+
+wlink -o ex2_q2.srec ex2_q2.o /home/comp200/ex2/main_q2.o /home/comp200/ex2/lib_ex2.o
+
+mark200 ex2_q2.srec
+
+
+
+
+wasm ex2_q3.s
+
+wlink -o ex2_q3.srec ex2_q3.o ex2_q2.o /home/comp200/ex2/lib_ex2.o
+
+mark200 ex2_q3.srec

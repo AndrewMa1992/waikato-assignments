@@ -1,0 +1,6 @@
+.text				#specifies that what follows are instructions
+.global main			#specifies that the label "main" is globally accessible
+
+main:		#entry point into the program
+	addi $2, $0, 41
+	jal putch

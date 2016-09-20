@@ -1,0 +1,16 @@
+//id:1260430 name:bruce tan
+public interface BTinterface{
+
+//reutrn null if not found, or the reference to the Account of that node
+Account find(int key);
+
+//insert a new AccountBST into the tree with the according parameters
+void insert(int key,float balance);
+
+//remove the AccountBST with the specificed key
+void remove(int key);
+
+//traverse all and print the key and balance of each node
+void traverse();
+
+}

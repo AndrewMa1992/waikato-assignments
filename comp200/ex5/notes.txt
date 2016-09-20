@@ -1,0 +1,30 @@
+Updating the previous slide for the multitasking kernel:
+• Setup Code
+    • Initialises tasks
+    • Turns on interrupts and initialises devices
+    • Load the first task (via dispatcher)
+• Handler
+    • Determines the cause of the exception, and branches to the timer handler
+    when appropriate
+• Timer handler
+    • Acknowledge interrupt
+    • Subtract 1 from the current time slice
+    • If the time slice has expired (i.e. is now zero), branch to the dispatcher
+    • Else return from exception
+• Dispatcher
+    • Save the context of the current task
+    • Determine which task should run next (scheduling)
+    • Load the context of the next task, and set its time slice duration
+    • Return from exception (i.e. continue running the next task)
+
+
+Each task must have an entry point, analogous to the main subroutine.
+• Each task may be written in its own .s file, as long as its entry point is .global
+
+
+When first starting a task, the dispatcher should begin by setting the program counter to the address of the first instruction of the task, i.e. its entry point.
+• Each task can have its own value for $cctrl,
+which is useful if you don’t want all tasks to run in
+kernel mode.
+• $cctrl must have the timer (IRQ2) and global
+interrupts (IE) enabled while the tasks are running.

@@ -1,0 +1,62 @@
+#!/bin/bash
+# Get into the correct directory
+cd /home/comp200
+
+# read local version num
+echo "[INFO] Checking local version info"
+typeset -i LOCAL_VERSION
+{
+LOCAL_VERSION=`cat /home/comp200/version`
+} &> /dev/null
+
+if [ $? -ne 0 ]; then
+	# Could not open local version file
+	echo "[ERR ] Could not obtain local version info"
+	exit 1
+fi
+
+echo "[INFO] Checking remote version info"
+typeset -i REMOTE_VERSION
+{
+REMOTE_VERSION=`wget -qO- http://cs.waikato.ac.nz/~cgrout/COMP200/version`
+} &> /dev/null
+
+if [ $? -ne 0 ]; then
+	# Could not open remote version file
+	echo "[ERR ] Could not obtain remote version info"
+	exit 1
+fi
+
+if (( REMOTE_VERSION > LOCAL_VERSION )); then
+	echo "[INFO] Newer version exists, updating"
+	{
+	wget http://cs.waikato.ac.nz/~cgrout/COMP200/update.tar.gz
+	} &> /dev/null
+
+	if [ $? -ne 0 ]; then
+		# Could not open acquire update archive
+		echo "[ERR ] Could not obtain remote update archive"
+		exit 1
+	fi
+
+	{
+	tar -xzf update.tar.gz
+	} &> /dev/null
+
+	# run post_extract script
+	bash post_extract
+
+	# clean up
+	{
+	rm update.tar.gz
+	rm post_extract
+	} &> /dev/null
+
+	echo "[INFO] COMP200 tools updated successfully"
+	exit 0
+else
+	echo "[INFO] COMP200 tools up to date"
+	exit 0
+fi
+
+# Updated version

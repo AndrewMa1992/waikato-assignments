@@ -1,0 +1,14 @@
+# Machine-generated file - use "remote -s" to change parameters.
+pu pname1           YUNYs-record
+pu pname2           YUNY
+pu pname3           YUNY
+pu pname4           NDNY
+pu pname5           NDNY
+pu pname6           YDNY
+pu pname7           YUYN
+pu pname8           NDYN
+pu pprog1           /home/comp200/bin/down
+pr port             /dev/ttyS0
+pu baudrate         38400
+pu rtscts           Yes
+pu mfcolor          RED

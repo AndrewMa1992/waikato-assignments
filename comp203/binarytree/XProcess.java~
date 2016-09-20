@@ -1,0 +1,102 @@
+import java.io.*;
+import java.util.Scanner;
+public class XProcess{
+
+	public static void main(String[] args){
+		if(args.length != 1){
+			System.out.println("please provide the name of the file");
+		}
+		try{
+			XProcess pro = new XProcess(args[0]);
+		}
+		catch (Exception e){
+			System.out.println(e.getMessage());
+			e.printStackTrace(System.out);
+		}
+			
+	
+	}
+
+	public XProcess(String input){
+		try{
+			Scanner sc = new Scanner(new File(input));
+			AccountBST tree = new AccountBST();
+			String line;
+			String output = "";
+			while(sc.hasNext()){
+				int key = 0;
+				String method = "";
+				float balance = 0;
+				line = sc.nextLine();
+				try{
+					String[] splited = line.split("\\s+");
+					if(splited.length != 3){throw new RuntimeException();}
+					//separate the line by space
+					//[0] is the key
+					//[1] is the method, d for deposit, w for withdrawl, c for remove
+					//[2] is the balance
+					key = Integer.parseInt(splited[0]);
+					method = splited[1];
+					balance = Float.parseFloat(splited[2]);
+					if(!method.equals("d") &&!method.equals("w") &&!method.equals("c")){
+						throw new RuntimeException();
+					}
+					
+				}catch(Exception e){
+					//if the format of the input line is not correct, it will simply jump to the next line
+					continue;
+				}
+
+				Account found = tree.find(key);
+				//found is null if it can't find the key, otherwise its a reference to the found Account
+				
+				if(method.equals("c")){
+					tree.remove(found.getKey());
+					System.out.print("CLOSE\n");
+				}else{
+				
+					if(found == null){
+						tree.insert(key,0);
+						found = tree.find(key);
+						found.setBalance(balance,method);
+					}else{
+						found.setBalance(balance,method);
+					}
+					System.out.print(fullName(method) + "\n");
+				}
+				
+			
+			}
+			System.out.println("RESULT");
+			tree.traverse();
+		}
+		catch (FileNotFoundException e){
+			System.out.println("file not found");
+		}		
+		catch(Exception e){
+			System.out.println(e.getMessage());
+			e.printStackTrace(System.out);
+		}
+
+		
+		
+	}
+	//converts the abbreviation to full name, d for DEPOSIT, w for WITHDRAW, c for CLOSE
+	private String fullName(String method){
+			if(method.equals("d")){
+				return "DEPOSIT";
+			}else if(method.equals("w")){
+				return "WITHDRAW";
+			}else if(method.equals("c")){
+				return "CLOSE";
+			}else{throw new RuntimeException("bad parameter for fullName, only accepts d or w or c");}
+			//only accept d, w or c
+	}
+
+	
+
+
+
+}
+
+

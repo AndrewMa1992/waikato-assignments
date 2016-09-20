@@ -1,0 +1,25 @@
+//id:1260430 name:bruce tan
+public class Account{
+
+	private int key = 0;
+	private float balance = (float)0;
+
+	public Account(int key, float balance){
+		this.key = key;
+		this.balance = balance;
+	}
+	public int getKey(){
+		return key;	
+	}
+	public float getBalance(){
+		return balance;	
+	}
+	public void setKey(int input){
+		key = input;
+	}
+	public void setBalance(float input,String type){
+		if(type.equals("d")){balance += input;}
+		else if(type.equals("w")){balance -=input;}
+		else{throw new RuntimeException("second parameter for setBalance can only be d or w");}
+	}
+}
